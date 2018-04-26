@@ -31,7 +31,7 @@ class RemoveUser(tornado.web.RequestHandler):
 class UpdateUser(tornado.web.RequestHandler):
     def post(self):
         body_args = json.loads(self.request.body)
-        users.update({'_id': body_args['_id']}, {$set:{body_args}})
+        users.update({'_id': body_args['_id']}, {'$set':{body_args}})
 
 
 class List(tornado.web.RequestHandler):
