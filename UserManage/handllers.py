@@ -38,7 +38,9 @@ class List(tornado.web.RequestHandler):
         #    new_doc = json.loads(json.dumps(doc,cls=MongoEncoder))
         #    self.write(new_doc)
         #import ipdb; ipdb.set_trace()
-        result=list()
+        result=dict()
+        result['data']=list()
         for doc in users.find():
-            result.append(json.dumps(doc,cls=MongoEncoder))
+            new_doc = json.loads(json.dumps(doc,cls=MongoEncoder))
+            result['data'].append(new_doc)
         self.write(result)
