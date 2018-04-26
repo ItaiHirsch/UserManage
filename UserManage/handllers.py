@@ -16,7 +16,9 @@ class MainHandler(tornado.web.RequestHandler):
 
 class AddUser(tornado.web.RequestHandler):
     def post(self):
-        users.insert(json.loads(self.requst.body))
+        #import ipdb; ipdb.set_trace()
+        body_args = json.loads(self.request.body)
+        users.insert(body_args)
 
 
 class RemoveUser(tornado.web.RequestHandler):
@@ -32,12 +34,6 @@ class UpdateUser(tornado.web.RequestHandler):
 
 class List(tornado.web.RequestHandler):
     def get(self):
-       # import ipdb; ipdb.set_trace()
-        #for doc in users.find():
-        #    #import ipdb; ipdb.set_trace()
-        #    new_doc = json.loads(json.dumps(doc,cls=MongoEncoder))
-        #    self.write(new_doc)
-        #import ipdb; ipdb.set_trace()
         result=dict()
         result['data']=list()
         for doc in users.find():
