@@ -32,11 +32,13 @@ class UpdateUser(tornado.web.RequestHandler):
 
 class List(tornado.web.RequestHandler):
     def get(self):
-        for doc in users.find():
-            new_doc = json.loads(json.dumps(doc,cls=MongoEncoder))
-            self.write(new_doc)
+       # import ipdb; ipdb.set_trace()
+        #for doc in users.find():
+        #    #import ipdb; ipdb.set_trace()
+        #    new_doc = json.loads(json.dumps(doc,cls=MongoEncoder))
+        #    self.write(new_doc)
         #import ipdb; ipdb.set_trace()
-        #result=list()
-        #for doc in users.find({},{'id':0}):
-        #    result.append(json.dumps(doc,cls=MongoEncoder))
-        #self.write(result)
+        result=list()
+        for doc in users.find():
+            result.append(json.dumps(doc,cls=MongoEncoder))
+        self.write(result)
