@@ -17,8 +17,7 @@ class MainHandler(tornado.web.RequestHandler):
 class AddUser(tornado.web.RequestHandler):
     def post(self):
         #import ipdb; ipdb.set_trace()
-        body_args = json.loads(self.request.body)
-        users.insert(body_args)
+        users.insert(json.loads(self.request.body))
 
 
 class RemoveUser(tornado.web.RequestHandler):
