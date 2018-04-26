@@ -1,7 +1,18 @@
 import tornado.ioloop
 import tornado.web
 import json
-from UserManage import db
+from UserManage import
+from bson import ObjectId
+import os.path
+
+users = db.users
+
+class ComplexEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, ObjectId):
+            return str(obj)
+        # Let the base class default method raise the TypeError
+        return json.JSONEncoder.default(self, obj)
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -9,20 +20,23 @@ class MainHandler(tornado.web.RequestHandler):
 
 class AddUser(tornado.web.RequestHandler):
     def post(self):
-        body_args = json.loads(self.requst.body)
-        pass
+        users.insert(json.loads(self.requst.body))
 
 
 class RemoveUser(tornado.web.RequestHandler):
     def post(self):
-        pass
+        users.remove(json.loads(self.requst.body))
 
 
 class UpdateUser(tornado.web.RequestHandler):
     def post(self):
-        pass
+        body_args = json.loads(self.request.body)
+        users.update({'_id': body_args['_id']}, {$set:{body_args}})
 
 
 class List(tornado.web.RequestHandler):
     def get(self):
-        pass
+        result=list()
+        for doc in users.find():
+            result.append(json.dumps(doc,cls=ComplexEncoder))
+        self.write(result)
