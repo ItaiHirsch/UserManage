@@ -1,11 +1,6 @@
 #TornadoWeb Framework
 from handllers import *
 
-#MongoDB create collection
-client = MongoClient('35.227.115.20')
-db = client.userdb
-col = db.users
-
 #path to files
 settings = dict(
     template_path = os.path.join(os.path.dirname(__file__), "templates"),
