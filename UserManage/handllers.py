@@ -23,7 +23,7 @@ class AddUser(tornado.web.RequestHandler):
 
 class RemoveUser(tornado.web.RequestHandler):
     def post(self):
-        users.remove(json.loads(self.requst.body))
+        users.remove(json.loads(self.request.body))
 
 
 class UpdateUser(tornado.web.RequestHandler):
