@@ -1,7 +1,7 @@
 import tornado.ioloop
 import tornado.web
 import json
-from UserManage import
+from UserManage import *
 from bson import ObjectId
 import os.path
 
