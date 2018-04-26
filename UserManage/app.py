@@ -12,9 +12,9 @@ def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
         (r"/add", AddUser),
-        (r"/delete", DeleteUser),
+        (r"/delete", RemoveUser),
         (r"/update", UpdateUser),
-        (r"/list", GetList)
+        (r"/list", List)
     ], **settings)
 
 if __name__ == "__main__":
