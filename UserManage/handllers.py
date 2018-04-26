@@ -1,18 +1,12 @@
 import tornado.ioloop
 import tornado.web
 import json
-from UserManage import *
+from UserManage import db
+from utils import MongoEncoder
 from bson import ObjectId
 import os.path
 
 users = db.users
-
-class ComplexEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, ObjectId):
-            return str(obj)
-        # Let the base class default method raise the TypeError
-        return json.JSONEncoder.default(self, obj)
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -38,5 +32,5 @@ class List(tornado.web.RequestHandler):
     def get(self):
         result=list()
         for doc in users.find():
-            result.append(json.dumps(doc,cls=ComplexEncoder))
+            result.append(json.dumps(doc,cls=MongoEncoder))
         self.write(result)
