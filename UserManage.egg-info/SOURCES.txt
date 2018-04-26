@@ -1,8 +1,0 @@
-README.md
-UserManage/__init__.py
-UserManage/app.py
-UserManage/handllers.py
-UserManage.egg-info/PKG-INFO
-UserManage.egg-info/SOURCES.txt
-UserManage.egg-info/dependency_links.txt
-UserManage.egg-info/top_level.txt
