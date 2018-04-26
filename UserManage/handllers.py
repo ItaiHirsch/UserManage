@@ -28,10 +28,7 @@ class RemoveUser(tornado.web.RequestHandler):
 class UpdateUser(tornado.web.RequestHandler):
     def post(self):
         body_args = json.loads(self.request.body)
-        #r = users.find({"_id":ObjectId(body_args["_id"])})
-        #bbb = list(r)
-        #import ipdb; ipdb.set_trace()
-        users.update({"_id":ObjectId(body_args["_id"])}, {'$set':{'mobile':body_args['mobile']}})
+        users.update({"_id":ObjectId(body_args["_id"])}, {'$set':{'mobile':body_args['mobile'],'name':body_args['name'],'lname':body_args['lname']}})
 
 
 class List(tornado.web.RequestHandler):
