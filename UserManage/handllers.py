@@ -1,11 +1,12 @@
 import tornado.ioloop
 import tornado.web
 import json
-from UserManage import db
+from UserManage import client
 from utils import MongoEncoder
 from bson import ObjectId
 import os.path
 
+db = client.userdb
 users = db.users
 
 class MainHandler(tornado.web.RequestHandler):
@@ -30,7 +31,8 @@ class UpdateUser(tornado.web.RequestHandler):
 
 class List(tornado.web.RequestHandler):
     def get(self):
+        import ipdb; ipdb.set_trace()
         result=list()
-        for doc in users.find():
+        for doc in users.find({},{'id':0}):
             result.append(json.dumps(doc,cls=MongoEncoder))
         self.write(result)
