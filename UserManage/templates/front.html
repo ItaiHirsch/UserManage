@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script
+        src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <style type="text/css">
+        #listid{
+            position: absolute;
+            right: 50%;width: 10px; border:3px;color: black;
+
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2 >Finito la first projeect</h2>
+        <div>
+            <button id="listid">Click Me Im the List</button>
+        </div>
+        <div>
+            <form id="form">
+                <h4>Add User</h4>
+                First name:<br>
+                <input id="firstname" type="text" name="firstname">
+                <br>
+                Last name:<br>
+                <input id="lastname" type="text" name="lastname">
+                <br>
+                Phone No:<br>
+                <input id="phone" type="text" name="phone">
+                <br>
+                <button  id='btn' type="submit">submit</button>
+            </form>
+        </div>
+        <table id="table" style="width: 50%">
+            <thead>
+                <tr>
+                    <th id="fn">First name</th>
+                    <th id="ln">Last name</th>
+                    <th id="ph">Phone</th>
+                </tr>
+            </thead>
+            <tbody id='users-body'>
+
+            </tbody>
+            <tr ></tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+        const appendUser = (user)  => {
+            $('#users-body').append(`<tr>
+                <td>${user.first}</td>
+                <td>${user.last}</td>
+                <td>${user.mobile}</td>
+                </tr>`)
+        }
+
+        const loadUsers = ()  => {
+            // ajax to backend to get list of users
+            $.ajax({
+                url: '/list',
+                method: 'GET',
+                success: (response) => {
+                    for (user of JSON.parse(response.data))
+                        appendUser(user)
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
+
+        $('#form').submit((e) => {
+            e.preventDefault()
+            var user = {
+                first: $(`#firstname`).val(),
+                last: $('#lastname').val(),
+                mobile: $('#phone').val()
+            }
+            console.log(user)
+            $.ajax({
+                url: '/add',
+                method: 'POST',
+                data: user,
+                success: (res) => {
+                        console.log(res)
+                        window.location.reload()
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        })
+
+        // $(`#btn`).on('click',(e) => {
+        //     e.preventDefault()
+        //     $.ajax({
+        //         url: '/add',
+        //         method: '/POST',
+        //         data : {first: $('#fn'),last: $('#ln'), mobile: $('#ph')},
+        //         success: (response) =>{
+        //             console.log($('#fn'))
+        //         },
+        //         error: (err) => {
+        //             console.log(err)
+        //         }
+
+        //     })
+        // })
+
+        loadUsers()
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
