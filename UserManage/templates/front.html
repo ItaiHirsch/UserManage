@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+
+    <title>User ManageMent</title>
     <script
         src="http://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -42,6 +50,7 @@
                     <th id="fn">First name</th>
                     <th id="ln">Last name</th>
                     <th id="ph">Phone</th>
+                    <th id='action'></th>
                 </tr>
             </thead>
             <tbody id='users-body'>
@@ -56,6 +65,7 @@
                 <td>${user.first}</td>
                 <td>${user.last}</td>
                 <td>${user.mobile}</td>
+                <td><button onclick='deleteUser("${ user._id }")' type='button'>Delete</button><button id='edit' type='button'>Edit</button></td>
                 </tr>`)
         }
 
@@ -65,6 +75,7 @@
                 url: '/list',
                 method: 'GET',
                 success: (response) => {
+                    console.log(response)
                     for (user of JSON.parse(response.data))
                         appendUser(user)
                 },
@@ -76,6 +87,7 @@
 
         $('#form').submit((e) => {
             e.preventDefault()
+            console.log(e)
             var user = {
                 first: $(`#firstname`).val(),
                 last: $('#lastname').val(),
@@ -95,6 +107,29 @@
                 }
             })
         })
+
+
+        $(`.please`).on('click', () =>{
+            console.log($(this))
+            alert(this.btnid)
+        })
+
+        function deleteUser(userId) {
+            $.ajax({
+                url: '/delete',
+                method: 'POST',
+                data: {
+                    id: userId
+                },
+                success: (res) =>{
+                    console.log(res)
+                    window.location.reload()
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
 
         // $(`#btn`).on('click',(e) => {
         //     e.preventDefault()
