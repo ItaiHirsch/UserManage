@@ -25,7 +25,7 @@
 </head>
 <body>
     <div>
-        <h2 >Finito la first projeect</h2>
+        <h2 >Finito la first project</h2>
         <div>
             <form id="form">
                 <h4>Add User</h4>
@@ -47,13 +47,11 @@
                     <th id="fn">First name</th>
                     <th id="ln">Last name</th>
                     <th id="ph">Phone</th>
-                    <th id='action'></th>
                 </tr>
             </thead>
             <tbody id='users-body'>
 
             </tbody>
-            <tr ></tr>
         </table>
     </div>
     <script type="text/javascript">
@@ -62,7 +60,7 @@
                 <td contenteditable="true" class='name'>${user.first}</td>
                 <td contenteditable="true" class='lastname'>${user.last}</td>
                 <td contenteditable="true" class='phone'>${user.mobile}</td>
-                <td contenteditable="true">
+                <td>
                 <button onclick='deleteUser("${ user._id }")' type='button'>Delete</button>
                 <button onclick='updateUser("${ user._id }")' type='button'>Edit</button></td>
                 </tr>`)
@@ -83,7 +81,7 @@
                 }
             })
         }
-
+        //add user!
         $('#form').submit((e) => {
             e.preventDefault()
             console.log(e)
@@ -126,22 +124,24 @@
         }
 
         function updateUser(userId) {
-            element = document.getElementById(userId)
-            userName = element.getElementsByClassName('name')
-            userLast = element.getElementsByClassName('lastname')
-            userPhone = element.getElementsByClassName('phone')
+            //getting the line we want to update
+            element=$(`#`+userId)
+            userName = element.children('.name').text()
+            userLast = element.children('.lastname').text()
+            userPhone = element.children(".phone").text()
+            console.log(userPhone)
             $.ajax({
                 url: '/update',
                 method: 'POST',
                 data: {
                     id: userId,
-                    first: userName["0"].textContent,
-                    last: userLast["0"].textContent,
-                    mobile: userPhone["0"].textContent
+                    first: userName,
+                    last: userLast,
+                    mobile: userPhone
                 },
                 success: (res) =>{
                     console.log(res)
-                    window.location.reload()
+                    //window.location.reload()
                 },
                 error: (err) => {
                     console.log(err)

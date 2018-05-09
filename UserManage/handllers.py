@@ -11,12 +11,17 @@ db = client.userdb
 users = db.users
 
 class MainHandler(tornado.web.RequestHandler):
+    '''
+    thid handler is the default one loading thml page
+    '''
     def get(self):
         self.render('front.html')
 
 class AddUser(tornado.web.RequestHandler):
+    '''
+    this handler alowing to add a user
+    '''
     def post(self):
-        #import ipdb; ipdb.set_trace()
         doc = {
             'first': self.get_argument('first'),
             'last': self.get_argument('last'),
@@ -27,12 +32,14 @@ class AddUser(tornado.web.RequestHandler):
 
 
 class RemoveUser(tornado.web.RequestHandler):
+    '''
+    this handler removing a user
+    '''
     def post(self):
         users.remove({'_id':ObjectId(self.get_argument('id'))})
 
 class UpdateUser(tornado.web.RequestHandler):
     def post(self):
-        # import ipdb;ipdb.set_trace()
         users.update({"_id":ObjectId(self.get_argument('id'))}, {'$set':{'mobile':self.get_argument('mobile'),'first':self.get_argument('first'),'last':self.get_argument('last')}})
         self.write({'status': 'OK'})
 
