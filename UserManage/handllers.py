@@ -29,7 +29,6 @@ class AddUser(tornado.web.RequestHandler):
 class RemoveUser(tornado.web.RequestHandler):
     def post(self):
         users.remove({'_id':ObjectId(self.get_argument('id'))})
-        self.write('Elon crying')
 
 class UpdateUser(tornado.web.RequestHandler):
     def post(self):
@@ -38,15 +37,13 @@ class UpdateUser(tornado.web.RequestHandler):
 
 
 class List(tornado.web.RequestHandler):
-    # def get(self):
-    #     result=dict()
-    #     result['data']=list()
-    #     for doc in users.find():
-    #         new_doc = json.loads(json.dumps(doc,cls=MongoEncoder))
-    #         result['data'].append(new_doc)
-    #     self.write(result)
-
 
     def get(self):
         response = json.dumps(list(users.find()), cls=MongoEncoder)
         self.write({'status': 'ok', 'data': response})
+
+
+
+
+
+

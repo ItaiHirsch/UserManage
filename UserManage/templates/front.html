@@ -59,6 +59,10 @@
             <tr ></tr>
         </table>
     </div>
+    <a class="toggle" href="#toggle">
+        <img src="app/css/images/tock.png" alt="No" data-id="4" data-block="1">
+    </a>
+
     <script type="text/javascript">
         const appendUser = (user)  => {
             $('#users-body').append(`<tr>
@@ -108,11 +112,6 @@
             })
         })
 
-
-        $(`.please`).on('click', () =>{
-            console.log($(this))
-            alert(this.btnid)
-        })
 
         function deleteUser(userId) {
             $.ajax({
