@@ -1,2 +1,5 @@
 *.egg-info
-./UserManage/__pycache__add
+./UserManage/__pycache__
+./UserManage/.DS_Store
+*.pyc
+.DS_Store

@@ -27,9 +27,6 @@
     <div>
         <h2 >Finito la first projeect</h2>
         <div>
-            <button id="listid">Click Me Im the List</button>
-        </div>
-        <div>
             <form id="form">
                 <h4>Add User</h4>
                 First name:<br>
@@ -61,11 +58,13 @@
     </div>
     <script type="text/javascript">
         const appendUser = (user)  => {
-            $('#users-body').append(`<tr>
-                <td>${user.first}</td>
-                <td>${user.last}</td>
-                <td>${user.mobile}</td>
-                <td><button onclick='deleteUser("${ user._id }")' type='button'>Delete</button><button id='edit' type='button'>Edit</button></td>
+            $('#users-body').append(`<tr id="${ user._id }">
+                <td contenteditable="true" class='name'>${user.first}</td>
+                <td contenteditable="true" class='lastname'>${user.last}</td>
+                <td contenteditable="true" class='phone'>${user.mobile}</td>
+                <td contenteditable="true">
+                <button onclick='deleteUser("${ user._id }")' type='button'>Delete</button>
+                <button onclick='updateUser("${ user._id }")' type='button'>Edit</button></td>
                 </tr>`)
         }
 
@@ -126,21 +125,29 @@
             })
         }
 
-        // $(`#btn`).on('click',(e) => {
-        //     e.preventDefault()
-        //     $.ajax({
-        //         url: '/add',
-        //         method: '/POST',
-        //         data : {first: $('#fn'),last: $('#ln'), mobile: $('#ph')},
-        //         success: (response) =>{
-        //             console.log($('#fn'))
-        //         },
-        //         error: (err) => {
-        //             console.log(err)
-        //         }
-
-        //     })
-        // })
+        function updateUser(userId) {
+            element = document.getElementById(userId)
+            userName = element.getElementsByClassName('name')
+            userLast = element.getElementsByClassName('lastname')
+            userPhone = element.getElementsByClassName('phone')
+            $.ajax({
+                url: '/update',
+                method: 'POST',
+                data: {
+                    id: userId,
+                    first: userName["0"].textContent,
+                    last: userLast["0"].textContent,
+                    mobile: userPhone["0"].textContent
+                },
+                success: (res) =>{
+                    console.log(res)
+                    window.location.reload()
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
 
         loadUsers()
 
