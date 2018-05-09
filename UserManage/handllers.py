@@ -45,7 +45,6 @@ class UpdateUser(tornado.web.RequestHandler):
 
 
 class List(tornado.web.RequestHandler):
-
     def get(self):
         response = json.dumps(list(users.find()), cls=MongoEncoder)
         self.write({'status': 'ok', 'data': response})
