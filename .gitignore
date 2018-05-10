@@ -3,3 +3,5 @@
 ./UserManage/.DS_Store
 *.pyc
 .DS_Store
+*.__py
+
