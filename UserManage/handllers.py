@@ -22,10 +22,12 @@ class AddUser(tornado.web.RequestHandler):
     this handler alowing to add a user
     '''
     def post(self):
+        #import ipdb;ipdb.set_trace()
+        data = json.loads(self.request.body)
         doc = {
-            'first': self.get_argument('first'),
-            'last': self.get_argument('last'),
-            'mobile': self.get_argument('mobile')
+            'first': data['first'],
+            'last': data['last'],
+            'mobile': data['mobile']
         }
         users.insert(doc)
         self.write({'status': 'ok'})
@@ -36,16 +38,21 @@ class RemoveUser(tornado.web.RequestHandler):
     this handler removing a user
     '''
     def post(self):
-        users.remove({'_id':ObjectId(self.get_argument('id'))})
+        #import ipdb;ipdb.set_trace()
+        users.remove({'_id':ObjectId((json.loads(self.request.body))['id'])})
+        self.write({'status': 'OK'})
 
 class UpdateUser(tornado.web.RequestHandler):
     def post(self):
-        users.update({"_id":ObjectId(self.get_argument('id'))}, {'$set':{'mobile':self.get_argument('mobile'),'first':self.get_argument('first'),'last':self.get_argument('last')}})
+        data = json.loads(self.request.body)
+        #import ipdb;ipdb.set_trace()
+        users.update({"_id":ObjectId(data['id'])}, {'$set':{'mobile':data['mobile'],'first':data['first'],'last':data['last']}})
         self.write({'status': 'OK'})
 
 
 class List(tornado.web.RequestHandler):
     def get(self):
+        #import ipdb;ipdb.set_trace()
         response = json.dumps(list(users.find()), cls=MongoEncoder)
         self.write({'status': 'ok', 'data': response})
 

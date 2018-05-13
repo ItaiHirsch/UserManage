@@ -15,6 +15,7 @@
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous">
     </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style type="text/css">
         #listid{
             position: absolute;
@@ -66,43 +67,75 @@
                 </tr>`)
         }
 
-        const loadUsers = ()  => {
-            // ajax to backend to get list of users
-            $.ajax({
-                url: '/list',
-                method: 'GET',
-                success: (response) => {
-                    console.log(response)
-                    for (user of JSON.parse(response.data))
+        // const loadUsers = ()  => {
+        //     // ajax to backend to get list of users
+        //     $.ajax({
+        //         url: '/list',
+        //         method: 'GET',
+        //         success: (response) => {
+        //             console.log(response)
+        //             for (user of JSON.parse(response.data))
+        //                 appendUser(user)
+        //         },
+        //         error: (err) => {
+        //             console.log(err)
+        //         }
+        //     })
+        // }
+
+        //Axios!!!
+
+        const loadUsers = () =>{
+            axios.get('/list')
+                .then(({ data })=>{
+                    console.log(data)
+                    for(user of JSON.parse(data.data))
                         appendUser(user)
-                },
-                error: (err) => {
-                    console.log(err)
-                }
-            })
+                }).catch((reject)=>{
+                    console.log(reject)
+                })
         }
+
         //add user!
-        $('#form').submit((e) => {
+        // $('#form').submit((e) => {
+        //     e.preventDefault()
+        //     console.log(e)
+        //     var user = {
+        //         first: $(`#firstname`).val(),
+        //         last: $('#lastname').val(),
+        //         mobile: $('#phone').val()
+        //     }
+        //     console.log(user)
+        //     $.ajax({
+        //         url: '/add',
+        //         method: 'POST',
+        //         data: user,
+        //         success: (res) => {
+        //                 console.log(res)
+        //                 window.location.reload()
+        //         },
+        //         error: (err) => {
+        //             console.log(err)
+        //         }
+        //     })
+        // })
+
+        //Another AXIOS
+
+        $('#form').submit((e) =>{
             e.preventDefault()
-            console.log(e)
             var user = {
-                first: $(`#firstname`).val(),
-                last: $('#lastname').val(),
-                mobile: $('#phone').val()
-            }
-            console.log(user)
-            $.ajax({
-                url: '/add',
-                method: 'POST',
-                data: user,
-                success: (res) => {
-                        console.log(res)
-                        window.location.reload()
-                },
-                error: (err) => {
-                    console.log(err)
+                    first: $(`#firstname`).val(),
+                    last: $('#lastname').val(),
+                    mobile: $('#phone').val()
                 }
-            })
+            axios.post('/add', user)
+                .then((resolve) =>{
+                    console.log(resolve)
+                    window.location.reload()
+                }).catch((reject)=>{
+                    console.log(reject)
+                })
         })
 
 
@@ -123,31 +156,69 @@
             })
         }
 
-        function updateUser(userId) {
-            //getting the line we want to update
+        // YAY Another AXIOS
+
+        deleteUser = (userId) => {
+            axios.post('/delete',{ "id": userId})
+                .then((resolve) =>{
+                    console.log(resolve)
+                    window.location.reload()
+                }).catch((reject) => {
+                    console.log(reject)
+                })
+        }
+
+        // function updateUser(userId) {
+        //     //getting the line we want to update
+        //     element=$(`#`+userId)
+        //     userName = element.children('.name').text()
+        //     userLast = element.children('.lastname').text()
+        //     userPhone = element.children(".phone").text()
+        //     console.log(userPhone)
+        //     $.ajax({
+        //         url: '/update',
+        //         method: 'POST',
+        //         data: {
+        //             id: userId,
+        //             first: userName,
+        //             last: userLast,
+        //             mobile: userPhone
+        //         },
+        //         success: (res) =>{
+        //             console.log(res)
+        //             //window.location.reload()
+        //         },
+        //         error: (err) => {
+        //             console.log(err)
+        //         }
+        //     })
+        // }
+
+        //Another one bite the AXIOSSS
+
+        updateUser = (userId) => {
             element=$(`#`+userId)
             userName = element.children('.name').text()
             userLast = element.children('.lastname').text()
             userPhone = element.children(".phone").text()
-            console.log(userPhone)
-            $.ajax({
-                url: '/update',
-                method: 'POST',
-                data: {
-                    id: userId,
-                    first: userName,
-                    last: userLast,
-                    mobile: userPhone
-                },
-                success: (res) =>{
-                    console.log(res)
-                    //window.location.reload()
-                },
-                error: (err) => {
-                    console.log(err)
-                }
-            })
+            data = {
+                'id': userId,
+                'first': userName,
+                'last': userLast,
+                'mobile': userPhone
+            }
+            axios.post('/update',data)
+                .then((resolve)=>{
+                    console.log(resolve)
+                }).catch((reject) =>{
+                    console.log(reject)
+                })
         }
+
+
+
+
+        //Lets try Axios.
 
         loadUsers()
 
